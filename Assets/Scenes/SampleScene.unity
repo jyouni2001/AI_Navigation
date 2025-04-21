@@ -7955,11 +7955,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tagsToBake:
-  - Ground
   - Wall
   - Bed
   - Counter
   - Floor
+  - Ground
   agentHeight: 2
   agentRadius: 0.5
   agentSlope: 45
