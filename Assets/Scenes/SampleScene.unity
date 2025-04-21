@@ -7959,6 +7959,7 @@ MonoBehaviour:
   - Wall
   - Bed
   - Counter
+  - Floor
   agentHeight: 2
   agentRadius: 0.5
   agentSlope: 45

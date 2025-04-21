@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -1307658813807429385}
   m_Layer: 11
   m_Name: ParasolPv1
-  m_TagString: Untagged
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,6 +84,10 @@ PrefabInstance:
     - target: {fileID: 6133345673864246647, guid: b2784a5bd8dc3814787c07a65c907f56, type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133345673864246647, guid: b2784a5bd8dc3814787c07a65c907f56, type: 3}
+      propertyPath: m_TagString
+      value: Furniture
       objectReference: {fileID: 0}
     - target: {fileID: 6797574269265719245, guid: b2784a5bd8dc3814787c07a65c907f56, type: 3}
       propertyPath: m_LocalPosition.x
