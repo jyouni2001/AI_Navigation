@@ -16,6 +16,7 @@ public class AIAgent : MonoBehaviour
 {
     // AI 이동 및 위치 관련 변수들
     private NavMeshAgent agent;                    // AI 이동을 제어하는 네비게이션 에이전트
+    private RoomManager roomManager;               // 룸 매니저
     private Transform counterPosition;             // 카운터의 위치
     private static List<RoomInfo> roomList = new List<RoomInfo>();  // 동적 룸 정보 리스트
     private Transform spawnPoint;                  // AI 생성/소멸 지점
@@ -39,6 +40,8 @@ public class AIAgent : MonoBehaviour
     private Coroutine wanderingCoroutine;         // 배회 코루틴 참조
     private Coroutine roomUseCoroutine;           // 방 사용 코루틴 참조
     private int maxRetries = 3;                   // 위치 찾기 최대 시도 횟수
+
+    
 
     // 룸 정보 클래스
     private class RoomInfo
@@ -117,6 +120,12 @@ public class AIAgent : MonoBehaviour
             Debug.LogError($"AI {gameObject.name}: 필수 오브젝트(Counter 또는 Spawn)를 찾을 수 없습니다. 태그가 올바르게 설정되어 있는지 확인하세요.");
             Destroy(gameObject);
             return;
+        }
+
+        roomManager = FindObjectOfType<RoomManager>();
+        if (roomManager == null)
+        {
+            Debug.LogWarning($"AI {gameObject.name}: RoomManager를 찾을 수 없습니다.");
         }
 
         counterPosition = counter.transform;
@@ -601,6 +610,19 @@ public class AIAgent : MonoBehaviour
                 currentRoomIndex = -1;
                 Debug.Log($"방 {reportingRoomIndex + 1}번이 비워졌습니다.");
             }
+        }
+
+        // 여기에 RoomManager를 통한 결제 처리 코드 추가
+        var roomManager = FindObjectOfType<RoomManager>();
+        if (roomManager != null)
+        {
+            // AI 이름과 함께 방 사용 결제 처리 요청
+            int amount = roomManager.ProcessRoomPayment(gameObject.name);
+            Debug.Log($"AI {gameObject.name}: 방 사용 결제 완료, 금액: {amount}원");
+        }
+        else
+        {
+            Debug.LogWarning($"AI {gameObject.name}: RoomManager를 찾을 수 없습니다.");
         }
 
         // 대기열 시스템을 통해 방 비움 보고 및 결제 처리
