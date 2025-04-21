@@ -43,6 +43,20 @@ namespace JY
                 Debug.Log($"결제 처리: {payment.aiName}, 방 {payment.roomID}, {payment.amount}원");
             }
             
+            // 결제된 금액을 플레이어 소지금에 추가
+            if (totalAmount > 0)
+            {
+                var playerWallet = PlayerWallet.Instance;
+                if (playerWallet != null)
+                {
+                    playerWallet.AddMoney(totalAmount);
+                }
+                else
+                {
+                    Debug.LogError("PlayerWallet을 찾을 수 없습니다.");
+                }
+            }
+            
             // 처리된 결제 제거
             paymentQueue.RemoveAll(p => p.isPaid);
             

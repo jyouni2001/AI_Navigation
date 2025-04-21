@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using JY;
 
 // RoomDetector의 인터페이스만 정의하여 참조 문제 해결
 public interface IRoomDetector
@@ -521,13 +522,23 @@ public class AIAgent : MonoBehaviour
             yield break;
         }
 
+        // RoomManager에 방 사용 보고
+        var roomManager = FindObjectOfType<RoomManager>();
+        var room = roomList[currentRoomIndex].gameObject.GetComponent<RoomContents>();
+        if (roomManager != null && room != null)
+        {
+            roomManager.ReportRoomUsage(gameObject.name, room);
+        }
+        else
+        {
+            Debug.LogError($"AI {gameObject.name}: RoomManager 또는 RoomContents를 찾을 수 없습니다.");
+        }
+
         TransitionToState(AIState.UsingRoom);
 
         if (stayInRoom)
         {
             Debug.Log($"AI {gameObject.name}: 방 {currentRoomIndex + 1}번 안에서 배회합니다.");
-            
-            // 방 안에서 배회
             while (elapsedTime < roomUseTime && agent.isOnNavMesh)
             {
                 Vector3 roomCenter = roomList[currentRoomIndex].transform.position;
@@ -540,13 +551,11 @@ public class AIAgent : MonoBehaviour
                 }
                 else
                 {
-                    // 유효한 위치를 찾지 못했다면 방 밖에서 배회로 전환
                     Debug.LogWarning($"AI {gameObject.name}: 방 {currentRoomIndex + 1}번 안에서 유효한 위치를 찾지 못했습니다. 방 밖에서 배회합니다.");
                     stayInRoom = false;
                     break;
                 }
 
-                // 2-5초 기다렸다가 다음 위치로 이동
                 yield return new WaitForSeconds(Random.Range(2f, 5f));
                 elapsedTime += Random.Range(2f, 5f);
             }
@@ -555,27 +564,23 @@ public class AIAgent : MonoBehaviour
         if (!stayInRoom)
         {
             Debug.Log($"AI {gameObject.name}: 방 {currentRoomIndex + 1}번 밖에서 배회합니다.");
-            
-            // 방 밖에서 배회
             while (elapsedTime < roomUseTime && agent.isOnNavMesh)
             {
                 Vector3 roomCenter = roomList[currentRoomIndex].transform.position;
                 Vector3 randomPoint = roomCenter + Random.insideUnitSphere * wanderRadius;
-                randomPoint.y = transform.position.y; // 높이 유지
-                
+                randomPoint.y = transform.position.y;
+
                 NavMeshHit hit;
                 if (NavMesh.SamplePosition(randomPoint, out hit, wanderRadius, NavMesh.AllAreas))
                 {
                     agent.SetDestination(hit.position);
                 }
-                
-                // 3-7초 기다렸다가 다음 위치로 이동
+
                 yield return new WaitForSeconds(Random.Range(3f, 7f));
                 elapsedTime += Random.Range(3f, 7f);
             }
         }
 
-        // 방 사용 완료
         Debug.Log($"AI {gameObject.name}: 방 {currentRoomIndex + 1}번 사용 완료, 보고를 위해 대기열로 이동합니다.");
         StartCoroutine(ReportRoomVacancy());
     }
@@ -584,7 +589,7 @@ public class AIAgent : MonoBehaviour
     {
         TransitionToState(AIState.ReportingRoom);
         
-        int reportingRoomIndex = currentRoomIndex; // 현재 방 번호 저장
+        int reportingRoomIndex = currentRoomIndex;
         Debug.Log($"AI {gameObject.name}: 방 {reportingRoomIndex + 1}번 사용 완료를 보고합니다.");
         
         // 방 사용 완료 표시
@@ -598,9 +603,20 @@ public class AIAgent : MonoBehaviour
             }
         }
 
-        // 대기열 시스템을 통해 방 비움 보고
+        // 대기열 시스템을 통해 방 비움 보고 및 결제 처리
         StartCoroutine(QueueBehavior());
         
+        // 결제 완료 확인
+        var paymentSystem = FindObjectOfType<PaymentSystem>();
+        if (paymentSystem != null && !paymentSystem.HasUnpaidPayments(gameObject.name))
+        {
+            Debug.Log($"AI {gameObject.name}: 모든 결제가 완료되었습니다.");
+        }
+        else
+        {
+            Debug.LogWarning($"AI {gameObject.name}: 미결제 금액이 남아있습니다.");
+        }
+
         yield break;
     }
 
