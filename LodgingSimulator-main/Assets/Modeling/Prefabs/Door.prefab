@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 690923067792498683}
   - component: {fileID: 537499656636937045}
   m_Layer: 10
-  m_Name: WallPv
+  m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1812413233687455648, guid: 4c96a0996ba107a4c8dc33044cb8bc78, type: 3}
       propertyPath: m_Name
-      value: Wall
+      value: Door
       objectReference: {fileID: 0}
     - target: {fileID: 1812413233687455648, guid: 4c96a0996ba107a4c8dc33044cb8bc78, type: 3}
       propertyPath: m_Layer
@@ -80,7 +80,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1812413233687455648, guid: 4c96a0996ba107a4c8dc33044cb8bc78, type: 3}
       propertyPath: m_TagString
-      value: Wall
+      value: Door
       objectReference: {fileID: 0}
     - target: {fileID: 7363427732956862130, guid: 4c96a0996ba107a4c8dc33044cb8bc78, type: 3}
       propertyPath: m_LocalScale.z

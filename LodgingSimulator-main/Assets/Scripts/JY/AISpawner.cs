@@ -69,7 +69,7 @@ public class AISpawner : MonoBehaviour
     {
         if (aiPool.Count <= 0)
         {
-            Debug.LogWarning("풀에 사용 가능한 AI가 없습니다!");
+            // Debug.LogWarning("풀에 사용 가능한 AI가 없습니다!");
             return;
         }
 
@@ -90,7 +90,7 @@ public class AISpawner : MonoBehaviour
         activeAIs.Add(ai);
         
         spawnCount++;
-        Debug.Log($"{ai.name} 활성화됨 (현재 활성화된 AI: {activeAIs.Count}개)");
+        // Debug.Log($"{ai.name} 활성화됨 (현재 활성화된 AI: {activeAIs.Count}개)");
     }
 
     // AI 오브젝트를 풀로 반환
@@ -102,7 +102,7 @@ public class AISpawner : MonoBehaviour
         activeAIs.Remove(ai);
         aiPool.Enqueue(ai);
         ai.transform.position = transform.position; // 스포너 위치로 이동
-        Debug.Log($"{ai.name} 비활성화됨 (남은 풀 개수: {aiPool.Count}개)");
+        // Debug.Log($"{ai.name} 비활성화됨 (남은 풀 개수: {aiPool.Count}개)");
     }
 
     // 모든 활성화된 AI를 풀로 반환

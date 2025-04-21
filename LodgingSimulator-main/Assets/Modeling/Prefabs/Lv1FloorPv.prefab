@@ -70,6 +70,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 8470504676313395890, guid: 88133012680abcc458d03b31eb1dcec3, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     - target: {fileID: 9135155690317391880, guid: 88133012680abcc458d03b31eb1dcec3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

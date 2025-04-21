@@ -70,6 +70,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 1665039976442646351, guid: 9d9d38436cb08c848916aed046dbf443, type: 3}
+      propertyPath: m_TagString
+      value: Bed
+      objectReference: {fileID: 0}
     - target: {fileID: 2040334753646777845, guid: 9d9d38436cb08c848916aed046dbf443, type: 3}
       propertyPath: m_LocalScale.x
       value: 120
